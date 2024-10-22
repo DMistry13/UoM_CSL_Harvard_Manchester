@@ -13,20 +13,41 @@
     <author>
       <name>Dhruv Mistry</name>
     </author>
-    <updated>2024-10-22T11:01:39+00:00</updated>
+    <updated>2024-10-22T11:27:25+00:00</updated>
   </info>
   <macro name="author">
     <names variable="author">
       <name delimiter=" " delimiter-precedes-last="always" initialize-with="." name-as-sort-order="all"/>
     </names>
   </macro>
-  <macro name="issued"/>
-  <macro name="publisher">
-    <group delimiter=", ">
-      <text variable="publisher-place"/>
-      <text variable="publisher"/>
+  <macro name="year">
+    <group>
+      <text variable="year-suffix" prefix="(" suffix="). "/>
+      <date date-parts="year" form="text" variable="issued" prefix="(" suffix="). "/>
     </group>
   </macro>
+  <macro name="specific title">
+    <group/>
+  </macro>
+  <macro name="title"/>
+  <macro name="sub-title"/>
+  <macro name="editions">
+    <group delimiter=" ">
+      <choose>
+        <if is-numeric="edition">
+          <number variable="edition" form="ordinal"/>
+        </if>
+        <else>
+          <text variable="edition"/>
+        </else>
+      </choose>
+      <text value="edn. "/>
+    </group>
+  </macro>
+  <macro name="medium"/>
+  <macro name="publisher"/>
+  <macro name="last update"/>
+  <macro name="page number"/>
   <macro name="access">
     <group delimiter=" ">
       <text value="Available at:"/>
@@ -39,20 +60,6 @@
           <date-part name="year"/>
         </date>
       </group>
-    </group>
-  </macro>
-  <macro name="date"/>
-  <macro name="editions">
-    <group delimiter=" ">
-      <choose>
-        <if is-numeric="edition">
-          <number variable="edition" form="ordinal"/>
-        </if>
-        <else>
-          <text variable="edition"/>
-        </else>
-      </choose>
-      <text value="edn. "/>
     </group>
   </macro>
   <citation et-al-min="3" et-al-use-first="1" collapse="year" delimiter="; ">
@@ -80,23 +87,18 @@
   <bibliography hanging-indent="true" line-spacing="1" entry-spacing="0">
     <layout delimiter=". ">
       <text macro="author" suffix=" "/>
-      <text macro="issued" suffix=". "/>
       <group>
         <choose>
           <if type="book">
             <group>
               <choose>
                 <if match="any" variable="author">
-                  <date variable="issued" prefix="(" suffix="). ">
-                    <date-part name="year"/>
-                  </date>
+                  <text macro="year"/>
                   <text variable="title" text-case="capitalize-first" font-style="italic" font-variant="normal" suffix=". "/>
                 </if>
                 <else>
                   <text variable="title" font-style="italic" suffix=". "/>
-                  <date variable="issued" prefix="(" suffix="). ">
-                    <date-part name="year"/>
-                  </date>
+                  <text macro="year"/>
                   <text variable="collection-title"/>
                 </else>
               </choose>
