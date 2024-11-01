@@ -1,0 +1,88 @@
+  <macro name="author">
+    <names variable="author">
+      <name delimiter=" " delimiter-precedes-last="always" et-al-min="4" initialize-with="." name-as-sort-order="all"/>
+    </names>
+  </macro>
+  <macro name="year">
+    <group>
+      <text variable="year-suffix" prefix="(" suffix="). "/>
+      <date date-parts="year" form="text" variable="issued" prefix="(" suffix="). "/>
+    </group>
+  </macro>
+  <macro name="specific title">
+    <group>
+      <text variable="container-title" prefix="'" suffix="', "/>
+    </group>
+  </macro>
+  <macro name="title">
+    <group>
+      <text variable="original-title" font-style="italic"/>
+    </group>
+    <choose>
+      <if match="any" variable="collection-title">
+        <text variable="collection-title" font-style="italic" prefix=": " suffix=". "/>
+      </if>
+      <else>
+        <text value="full stop" suffix=". "/>
+      </else>
+    </choose>
+  </macro>
+  <macro name="editions">
+    <group delimiter=" ">
+      <number variable="edition" form="ordinal"/>
+      <text value="edn. "/>
+    </group>
+  </macro>
+  <macro name="medium">
+    <group prefix="[" suffix="]. ">
+      <text variable="medium"/>
+    </group>
+  </macro>
+  <macro name="publisher">
+    <group>
+      <text variable="publisher-place" suffix=":"/>
+      <text variable="publisher" suffix="."/>
+    </group>
+  </macro>
+  <macro name="last update">
+    <choose>
+      <if type="post" match="any">
+        <date varible="issued">
+          <date-part name="hour" suffix=":"/>
+          <date-part name="minute" suffix=", "/>
+        </date>
+      </if>
+    </choose>
+    <date>
+      <date-part name="day" suffix=" "/>
+      <date-part name="month" form="long" suffix=" "/>
+      <date-part name="year" suffic=". "/>
+    </date>
+  </macro>
+  <macro name="page number">
+    <group>
+      <label variable="page" form="short"/>
+      <text variable="page"/>
+    </group>
+  </macro>
+  <macro name="access">
+    <group delimiter=" ">
+      <text value="Available at:"/>
+      <choose>
+        <if match="any" variable="URL">
+          <text variable="URL" suffix="."/>
+        </if>
+        <else-if match="any" variable="DOI">
+          <text variable="DOI"/>
+        </else-if>
+      </choose>
+      <group prefix=" (" suffix=").">
+        <text value="Accessed: "/>
+        <date variable="accessed">
+          <date-part name="day" form="numeric-leading-zeros" suffix="."/>
+          <date-part name="month" form="numeric-leading-zeros" suffix="."/>
+          <date-part name="year"/>
+        </date>
+      </group>
+    </group>
+  </macro>
