@@ -13,12 +13,26 @@
     <author>
       <name>Dhruv Mistry</name>
     </author>
-    <updated>2024-10-23T11:13:19+00:00</updated>
+    <updated>2024-11-04T16:52:05+00:00</updated>
   </info>
   <macro name="author">
-    <names variable="author">
-      <name delimiter=" " delimiter-precedes-last="always" initialize-with="." name-as-sort-order="all"/>
-    </names>
+    <choose>
+      <if match="all" variable="author editor">
+        <names variable="author" suffix=" ">
+          <name delimiter="" suffix=" " delimiter-precedes-last="always" et-al-min="4" initialize-with="." name-as-sort-order="all"/>
+        </names>
+      </if>
+      <else-if match="any" variable="editor">
+        <names variable="editor">
+          <name suffix=" " delimiter-precedes-last="always" et-al-min="4" name-as-sort-order="all"/>
+        </names>
+      </else-if>
+      <else>
+        <names variable="author editor">
+          <name suffix=" " delimiter-precedes-last="always" et-al-min="4"/>
+        </names>
+      </else>
+    </choose>
   </macro>
   <macro name="year">
     <group>
@@ -28,32 +42,71 @@
   </macro>
   <macro name="specific title">
     <group>
-      <text variable="collection-title"/>
+      <text variable="container-title" prefix="'" suffix="', "/>
     </group>
   </macro>
-  <macro name="title"/>
-  <macro name="sub-title"/>
+  <macro name="title">
+    <group>
+      <text variable="original-title" font-style="italic"/>
+    </group>
+    <choose>
+      <if match="any" variable="collection-title">
+        <text variable="collection-title" font-style="italic" prefix=": " suffix=". "/>
+      </if>
+      <else>
+        <text value="full stop" suffix=". "/>
+      </else>
+    </choose>
+  </macro>
   <macro name="editions">
     <group delimiter=" ">
-      <choose>
-        <if is-numeric="edition">
-          <number variable="edition" form="ordinal"/>
-        </if>
-        <else>
-          <text variable="edition"/>
-        </else>
-      </choose>
+      <number variable="edition" form="ordinal"/>
       <text value="edn. "/>
     </group>
   </macro>
-  <macro name="medium"/>
-  <macro name="publisher"/>
-  <macro name="last update"/>
-  <macro name="page number"/>
+  <macro name="medium">
+    <group prefix="[" suffix="]. ">
+      <text variable="medium"/>
+    </group>
+  </macro>
+  <macro name="publisher">
+    <group>
+      <text variable="publisher-place" suffix=":"/>
+      <text variable="publisher" suffix="."/>
+    </group>
+  </macro>
+  <macro name="last update">
+    <choose>
+      <if type="post" match="any">
+        <date varible="issued">
+          <date-part name="hour" suffix=":"/>
+          <date-part name="minute" suffix=", "/>
+        </date>
+      </if>
+    </choose>
+    <date>
+      <date-part name="day" suffix=" "/>
+      <date-part name="month" form="long" suffix=" "/>
+      <date-part name="year" suffic=". "/>
+    </date>
+  </macro>
+  <macro name="page number">
+    <group>
+      <label variable="page" form="short"/>
+      <text variable="page"/>
+    </group>
+  </macro>
   <macro name="access">
     <group delimiter=" ">
       <text value="Available at:"/>
-      <text variable="URL" suffix="."/>
+      <choose>
+        <if match="any" variable="URL">
+          <text variable="URL" suffix="."/>
+        </if>
+        <else-if match="any" variable="DOI">
+          <text variable="DOI"/>
+        </else-if>
+      </choose>
       <group prefix=" (" suffix=").">
         <text value="Accessed: "/>
         <date variable="accessed">
@@ -71,7 +124,7 @@
     </sort>
     <layout delimiter=", ">
       <choose>
-        <if match="any" variable="author">
+        <if match="any" type="article">
           <text macro="author" suffix=" "/>
           <date variable="issued" prefix="(" suffix=")">
             <date-part name="year"/>
@@ -88,6 +141,21 @@
   </citation>
   <bibliography hanging-indent="true" line-spacing="1" entry-spacing="0">
     <layout delimiter=". ">
+      <choose>
+        <if match="any" type="broadcast">
+          <text macro="title"/>
+          <text macro="year"/>
+          <names variable="director">
+            <name suffix=" " delimiter-precedes-last="always" et-al-min="4"/>
+          </names>
+          <text macro="medium"/>
+          <text macro="publisher"/>
+        </if>
+        <else>
+          <text macro="author"/>
+          <text macro="year"/>
+        </else>
+      </choose>
       <group>
         <choose>
           <if type="book">
@@ -122,7 +190,6 @@
             </group>
           </else-if>
         </choose>
-        <text macro="author" suffix=" "/>
       </group>
       <choose>
         <if variable="URL">
