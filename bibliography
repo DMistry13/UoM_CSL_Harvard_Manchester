@@ -1,0 +1,59 @@
+  <bibliography hanging-indent="true" line-spacing="1" entry-spacing="0">
+    <layout delimiter=". ">
+      <choose>
+        <if match="any" type="broadcast">
+          <text macro="title"/>
+          <text macro="year"/>
+          <names variable="director">
+            <name suffix=" " delimiter-precedes-last="always" et-al-min="4"/>
+          </names>
+          <text macro="medium"/>
+          <text macro="publisher"/>
+        </if>
+        <else>
+          <text macro="author"/>
+          <text macro="year"/>
+        </else>
+      </choose>
+      <group>
+        <choose>
+          <if type="book">
+            <group>
+              <choose>
+                <if match="any" variable="author">
+                  <text macro="year"/>
+                  <text variable="title" text-case="capitalize-first" font-style="italic" font-variant="normal" suffix=". "/>
+                </if>
+                <else>
+                  <text variable="title" font-style="italic" suffix=". "/>
+                  <text macro="year"/>
+                  <text variable="collection-title"/>
+                </else>
+              </choose>
+              <text variable="collection-title"/>
+              <text macro="editions"/>
+              <text variable="publisher-place" suffix=": "/>
+              <text variable="publisher" suffix="."/>
+            </group>
+          </if>
+          <else-if type="article-journal">
+            <group delimiter=" ">
+              <text macro="date"/>
+              <text variable="title" prefix="'" suffix="',"/>
+              <text variable="container-title" font-style="italic"/>
+              <group delimiter=" ">
+                <text variable="volume"/>
+                <text variable="issue" prefix="(" suffix=")"/>
+              </group>
+              <text variable="page"/>
+            </group>
+          </else-if>
+        </choose>
+      </group>
+      <choose>
+        <if variable="URL">
+          <text macro="access" prefix=". "/>
+        </if>
+      </choose>
+    </layout>
+  </bibliography>
