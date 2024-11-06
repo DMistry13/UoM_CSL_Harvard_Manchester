@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" and="symbol" et-al-use-first="3" demote-non-dropping-particle="never">
+  <info>
+    <title>Harvard Manchester</title>
+    <id>http://www.zotero.org/styles/harvard-manchester</id>
+    <link rel="self" href="http://www.zotero.org/styles/harvard-manchester"/>
+    <author>
+      <name>Adrian Kosikowski</name>
+    </author>
+    <author>
+      <name>Preenal Asher</name>
+    </author>
+    <author>
+      <name>Dhruv Mistry</name>
+    </author>
+    <updated>2024-11-04T16:59:41+00:00</updated>
+  </info>
