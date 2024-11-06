@@ -1,0 +1,22 @@
+  <citation et-al-min="3" et-al-use-first="1" collapse="year" delimiter="; ">
+    <sort>
+      <key macro="author"/>
+      <key macro="issued"/>
+    </sort>
+    <layout delimiter=", ">
+      <choose>
+        <if match="any" type="article">
+          <text macro="author" suffix=" "/>
+          <date variable="issued" prefix="(" suffix=")">
+            <date-part name="year"/>
+          </date>
+        </if>
+        <else>
+          <text variable="title" font-style="italic" prefix="(" suffix=", "/>
+          <date variable="issued" suffix=")">
+            <date-part name="year"/>
+          </date>
+        </else>
+      </choose>
+    </layout>
+  </citation>
