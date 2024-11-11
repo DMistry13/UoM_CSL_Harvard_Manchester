@@ -1,12 +1,25 @@
   <macro name="author">
-    <names variable="author">
-      <name delimiter=" " delimiter-precedes-last="always" et-al-min="4" initialize-with="." name-as-sort-order="all"/>
-    </names>
+    <choose>
+      <if match="all" variable="author editor">
+        <names variable="author" suffix=" ">
+          <name delimiter="" suffix=" " delimiter-precedes-last="always" et-al-min="4" initialize-with="." name-as-sort-order="first"/>
+        </names>
+      </if>
+      <else-if match="any" variable="editor">
+        <names variable="editor">
+          <name suffix=" " delimiter-precedes-last="always" et-al-min="4" name-as-sort-order="first"/>
+        </names>
+      </else-if>
+      <else>
+        <names variable="author editor">
+          <name suffix=" " et-al-min="4" initialize-with="." name-as-sort-order="first"/>
+        </names>
+      </else>
+    </choose>
   </macro>
   <macro name="year">
     <group>
-      <text variable="year-suffix" prefix="(" suffix="). "/>
-      <date date-parts="year" form="text" variable="issued" prefix="(" suffix="). "/>
+      <date date-parts="year" form="text" variable="issued" prefix="(" suffix=")."/>
     </group>
   </macro>
   <macro name="specific title">
@@ -39,7 +52,7 @@
     </group>
   </macro>
   <macro name="publisher">
-    <group>
+    <group delimiter=" ">
       <text variable="publisher-place" suffix=":"/>
       <text variable="publisher" suffix="."/>
     </group>
@@ -47,13 +60,13 @@
   <macro name="last update">
     <choose>
       <if type="post" match="any">
-        <date varible="issued">
+        <date variable="issued">
           <date-part name="hour" suffix=":"/>
           <date-part name="minute" suffix=", "/>
         </date>
       </if>
     </choose>
-    <date>
+    <date variable="submitted">
       <date-part name="day" suffix=" "/>
       <date-part name="month" form="long" suffix=" "/>
       <date-part name="year" suffic=". "/>
@@ -67,9 +80,9 @@
   </macro>
   <macro name="access">
     <group delimiter=" ">
-      <text value="Available at:"/>
       <choose>
         <if match="any" variable="URL">
+          <text value="Available at:"/>
           <text variable="URL" suffix="."/>
         </if>
         <else-if match="any" variable="DOI">
@@ -86,4 +99,3 @@
       </group>
     </group>
   </macro>
-</style>
