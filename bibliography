@@ -10,50 +10,85 @@
           <text macro="medium"/>
           <text macro="publisher"/>
         </if>
+        <else-if type="article-newspaper" match="any"/>
         <else>
-          <text macro="author"/>
+          <choose>
+            <if match="any" variable="author editor">
+              <text macro="author"/>
+            </if>
+            <else>
+              <text macro="title"/>
+            </else>
+          </choose>
           <text macro="year"/>
         </else>
       </choose>
-      <group>
+      <group delimiter=" ">
         <choose>
-          <if type="book">
-            <group>
-              <choose>
-                <if match="any" variable="author">
-                  <text macro="year"/>
-                  <text variable="title" text-case="capitalize-first" font-style="italic" font-variant="normal" suffix=". "/>
-                </if>
-                <else>
-                  <text variable="title" font-style="italic" suffix=". "/>
-                  <text macro="year"/>
-                  <text variable="collection-title"/>
-                </else>
-              </choose>
-              <text variable="collection-title"/>
-              <text macro="editions"/>
-              <text variable="publisher-place" suffix=": "/>
-              <text variable="publisher" suffix="."/>
+          <if type="article-journal">
+            <group delimiter=" ">
+              <text macro="specific title" prefix="'" suffix="',"/>
+              <text macro="title" font-style="italic"/>
+              <group delimiter=" ">
+                <text variable="volume" suffix=":"/>
+                <choose>
+                  <if match="any" variable="issue">
+                    <text variable="issue" prefix="(" suffix=")"/>
+                  </if>
+                  <else-if match="any" variable="part-number">
+                    <text variable="part-number" prefix="(" suffix=")"/>
+                  </else-if>
+                </choose>
+              </group>
+              <text macro="page number"/>
+              <text variable="source" suffix=" [Preprint] "/>
             </group>
           </if>
-          <else-if type="article-journal">
-            <group delimiter=" ">
-              <text macro="date"/>
-              <text variable="title" prefix="'" suffix="',"/>
-              <text variable="container-title" font-style="italic"/>
-              <group delimiter=" ">
-                <text variable="volume"/>
-                <text variable="issue" prefix="(" suffix=")"/>
-              </group>
-              <text variable="page"/>
-            </group>
+          <else-if type="article-newspaper" match="any">
+            <text macro="specific title"/>
+            <choose>
+              <if match="any" variable="author editor">
+                <text macro="title"/>
+              </if>
+              <else>
+                <text value=" "/>
+              </else>
+            </choose>
+            <text macro="last update"/>
+          </else-if>
+          <else-if type="book" match="any">
+            <text macro="specific title"/>
+            <text macro="title"/>
+            <text macro="editions"/>
+            <choose>
+              <if match="all" variable="author editor">
+                <text term="editor" prefix="Edited by "/>
+              </if>
+              <else-if match="any" variable="editor-translator">
+                <names variable="editor-translator" prefix="Translated by ">
+                  <name delimiter-precedes-last="always" et-al-min="4" initialize-with=". " name-as-sort-order="all"/>
+                </names>
+              </else-if>
+            </choose>
+            <text macro="publisher"/>
+            <text variable="source" font-style="italic" suffix="."/>
+          </else-if>
+          <else-if type="chapter">
+            <text macro="specific title"/>
+            <names variable="editor" prefix="in " suffix=".">
+              <name et-al-min="4" initialize-with=". " name-as-sort-order="first"/>
+            </names>
+            <text macro="title"/>
+            <text macro="publisher"/>
+            <text macro="page number"/>
           </else-if>
         </choose>
       </group>
       <choose>
-        <if variable="URL">
+        <if variable="URL DOI" match="any">
           <text macro="access" prefix=". "/>
         </if>
       </choose>
     </layout>
   </bibliography>
+</style>
