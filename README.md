@@ -1,6 +1,6 @@
 # Harvad-Manchester Refeerncing Addon
 
-Aim: Write an addon for Zotero, so that references can be exported in the "Harvad Manchester" Style. THis code is built in CSL.
+Aim: Write an addon for Zotero, so that references can be exported in the "Harvad Manchester" Style. This code is implemented in CSL.
 
 Authors:
 Adrian Kosikowski
