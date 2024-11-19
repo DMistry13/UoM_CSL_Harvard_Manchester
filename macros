@@ -11,7 +11,7 @@
         </names>
       </else-if>
       <else>
-        <names variable="author editor">
+        <names variable="author editor guest">
           <name suffix=" " et-al-min="4" initialize-with="." name-as-sort-order="first"/>
         </names>
       </else>
@@ -24,7 +24,7 @@
   </macro>
   <macro name="specific title">
     <group>
-      <text variable="container-title" prefix="'" suffix="', "/>
+      <text variable="container-title" prefix=" '" suffix="', "/>
     </group>
   </macro>
   <macro name="title">
