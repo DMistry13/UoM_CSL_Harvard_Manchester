@@ -10,10 +10,22 @@
           <text macro="medium"/>
           <text macro="publisher"/>
         </if>
-        <else-if type="article-newspaper" match="any"/>
+        <else-if type="collection" match="any">
+          <names variable="composer">
+            <name delimiter-precedes-last="always" et-al-min="3" initialize-with="." name-as-sort-order="first"/>
+          </names>
+          <text macro="year"/>
+          <text macro="specific title"/>
+          <text macro="title"/>
+          <text macro="medium"/>
+          <text macro="publisher"/>
+        </else-if>
+        <else-if type="legislation" match="any">
+          <text macro="title"/>
+        </else-if>
         <else>
           <choose>
-            <if match="any" variable="author editor">
+            <if match="any" variable="author editor" type="interview">
               <text macro="author"/>
             </if>
             <else>
@@ -27,9 +39,9 @@
         <choose>
           <if type="article-journal">
             <group delimiter=" ">
-              <text macro="specific title" prefix="'" suffix="',"/>
+              <text macro="specific title"/>
               <text macro="title" font-style="italic"/>
-              <group delimiter=" ">
+              <group delimiter=" " suffix=".">
                 <text variable="volume" suffix=":"/>
                 <choose>
                   <if match="any" variable="issue">
@@ -59,7 +71,6 @@
           <else-if type="book" match="any">
             <text macro="specific title"/>
             <text macro="title"/>
-            <text macro="editions"/>
             <choose>
               <if match="all" variable="author editor">
                 <text term="editor" prefix="Edited by "/>
@@ -70,6 +81,7 @@
                 </names>
               </else-if>
             </choose>
+            <text macro="editions"/>
             <text macro="publisher"/>
             <text variable="source" font-style="italic" suffix="."/>
           </else-if>
@@ -82,11 +94,89 @@
             <text macro="publisher"/>
             <text macro="page number"/>
           </else-if>
+          <else-if type="dataset" match="any"/>
+          <else-if type="document" match="any"/>
+          <else-if type="entry-encyclopedia" match="any">
+            <text macro="title"/>
+          </else-if>
+          <else-if type="figure" match="any">
+            <text macro="title"/>
+            <text variable="source" prefix="[" suffix="]"/>
+          </else-if>
+          <else-if type="graphic" match="any">
+            <text macro="title"/>
+            <text macro="medium"/>
+            <text macro="publisher"/>
+            <text variable="publisher" suffix=":"/>
+            <text variable="publisher-place" prefix="Publisher: " suffix="."/>
+            <text macro="page number"/>
+          </else-if>
+          <else-if type="interview" match="any">
+            <text variable="container-title" prefix="'" suffix="'."/>
+            <text term="editortranslator"/>
+            <choose>
+              <if match="all" variable="interviewer page">
+                <text variable="container-title" prefix="'" suffix="'."/>
+                <names variable="guest" prefix="Interview with ">
+                  <name delimiter-precedes-last="always" et-al-min="3" initialize-with="." name-as-sort-order="first"/>
+                </names>
+                <names variable="interviewer" prefix="Interviewed by ">
+                  <name delimiter-precedes-last="always" et-al-min="3" initialize-with="." name-as-sort-order="first"/>
+                </names>
+                <text variable="publisher" font-style="italic" prefix="for the "/>
+                <choose>
+                  <if match="any" variable="page">
+                    <text macro="page number"/>
+                    <date form="text" variable="event-date">
+                      <date-part name="day"/>
+                      <date-part name="month"/>
+                    </date>
+                  </if>
+                  <else>
+                    <date form="text" date-parts="year-month-day" variable="issued">
+                      <date-part name="day"/>
+                      <date-part name="month"/>
+                    </date>
+                  </else>
+                </choose>
+              </if>
+              <else>
+                <text macro="specific title"/>
+                <text macro="medium"/>
+                <text variable="publisher-place"/>
+                <text variable="status" prefix="&quot;" suffix="&quot;"/>
+              </else>
+            </choose>
+          </else-if>
+          <else-if type="legal_case" match="any">
+            <text variable="authority" suffix=","/>
+            <number/>
+            <text variable="call-number" prefix="Case: " suffix="."/>
+            <text variable="source" font-style="italic" suffix="."/>
+          </else-if>
+          <else-if type="map" match="any">
+            <choose>
+              <if match="any" variable="URL DOI">
+                <text variable="container-title" font-style="italic" suffix=":"/>
+                <text variable="title"/>
+                <text variable="page" suffix="."/>
+                <text variable="scale" suffix="."/>
+                <text variable="source" prefix="Using: "/>
+                <text variable="publisher-place" suffix="."/>
+              </if>
+              <else>
+                <text variable="container-title" font-style="italic" suffix="."/>
+                <text variable="scale" prefix="Scale "/>
+                <text macro="title"/>
+                <text macro="publisher"/>
+              </else>
+            </choose>
+          </else-if>
         </choose>
       </group>
       <choose>
         <if variable="URL DOI" match="any">
-          <text macro="access" prefix=". "/>
+          <text macro="access" prefix=" "/>
         </if>
       </choose>
     </layout>
