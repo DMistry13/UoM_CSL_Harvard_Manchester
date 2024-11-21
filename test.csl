@@ -13,7 +13,7 @@
     <author>
       <name>Dhruv Mistry</name>
     </author>
-    <updated>2024-11-19T14:17:57+00:00</updated>
+    <updated>2024-11-21T15:54:46+00:00</updated>
   </info>
   <macro name="author">
     <choose>
@@ -142,26 +142,60 @@
     <layout delimiter=". ">
       <choose>
         <if match="any" type="broadcast">
-          <text macro="title"/>
-          <text macro="year"/>
-          <names variable="director">
-            <name suffix=" " delimiter-precedes-last="always" et-al-min="4"/>
-          </names>
-          <text macro="medium"/>
-          <text macro="publisher"/>
+          <group delimiter=" ">
+            <text macro="title"/>
+            <text macro="year"/>
+            <names variable="director">
+              <name suffix=" " delimiter-precedes-last="always" et-al-min="4"/>
+            </names>
+            <text macro="medium"/>
+            <text macro="publisher"/>
+          </group>
         </if>
         <else-if type="collection" match="any">
-          <names variable="composer">
-            <name delimiter-precedes-last="always" et-al-min="3" initialize-with="." name-as-sort-order="first"/>
-          </names>
-          <text macro="year"/>
-          <text macro="specific title"/>
-          <text macro="title"/>
-          <text macro="medium"/>
-          <text macro="publisher"/>
+          <group delimiter=" ">
+            <names variable="composer">
+              <name delimiter-precedes-last="always" et-al-min="3" initialize-with="." name-as-sort-order="first"/>
+            </names>
+            <text macro="year"/>
+            <text macro="specific title"/>
+            <text macro="title"/>
+            <text macro="medium"/>
+            <text macro="publisher"/>
+          </group>
         </else-if>
         <else-if type="legislation" match="any">
+          <group delimiter=" ">
+            <text macro="title"/>
+          </group>
+        </else-if>
+        <else-if type="post-weblog" match="any">
+          <group delimiter=" ">
+            <text macro="author"/>
+            <text macro="specific title"/>
+            <text variable="original-title" suffix=","/>
+            <text macro="last update"/>
+          </group>
+        </else-if>
+        <else-if type="speech" match="any">
+          <group delimiter=" ">
+            <names variable="author" suffix=",">
+              <name name-as-sort-order="first"/>
+            </names>
+            <text macro="year"/>
+            <text macro="title"/>
+            <text macro="medium"/>
+            <text term="title-locator"/>
+            <text value="institution" suffix="Status: unpublished."/>
+          </group>
+        </else-if>
+        <else-if type="standard" match="any">
+          <text value="institution"/>
+          <text macro="year"/>
+          <number suffix=":" variable="number"/>
           <text macro="title"/>
+          <text macro="publisher"/>
+          <text macro="medium"/>
         </else-if>
         <else>
           <choose>
@@ -311,6 +345,84 @@
                 <text macro="publisher"/>
               </else>
             </choose>
+          </else-if>
+          <else-if type="motion_picture" match="any">
+            <text variable="original-title" font-style="italic"/>
+            <text term="timestamp"/>
+            <date form="text" variable="issued" suffix="."/>
+          </else-if>
+          <else-if type="pamphlet" match="any">
+            <text variable="original-title" font-style="italic" suffix=","/>
+            <text macro="last update" suffix=","/>
+            <text macro="medium"/>
+            <text variable="event-place" suffix=":"/>
+            <text variable="publisher-place" suffix="."/>
+          </else-if>
+          <else-if type="paper-conference" match="any">
+            <text macro="specific title"/>
+            <text variable="original-title" font-style="italic" suffix=","/>
+            <text variable="publisher-place" suffix="."/>
+            <text macro="last update"/>
+            <text variable="publisher" suffix="."/>
+            <text macro="page number"/>
+          </else-if>
+          <else-if type="patent" match="any">
+            <text macro="title"/>
+            <text term="patent" suffix="."/>
+          </else-if>
+          <else-if type="post" match="any">
+            <text variable="title" font-style="italic"/>
+            <text macro="medium"/>
+            <text term="timestamp"/>
+            <text macro="last update"/>
+          </else-if>
+          <else-if type="report" match="any">
+            <choose>
+              <if match="any" variable="URL DOI">
+                <choose>
+                  <if match="any" variable="publisher">
+                    <text macro="title"/>
+                    <text macro="publisher"/>
+                    <number prefix="(" suffix=")." variable="supplement-number"/>
+                  </if>
+                  <else>
+                    <text macro="title"/>
+                    <names variable="organizer"/>
+                  </else>
+                </choose>
+              </if>
+              <else>
+                <text macro="title"/>
+                <text variable="medium" prefix="[" suffix="]"/>
+                <number vertical-align="baseline" prefix="(" suffix=")" variable="supplement-number"/>
+              </else>
+            </choose>
+          </else-if>
+          <else-if type="review" match="any">
+            <text macro="specific title"/>
+            <text variable="source" font-style="italic"/>
+            <text value="[Systematic Review]."/>
+            <number prefix="Issue Number: (" variable="issue"/>
+            <number prefix="/" suffix=")," variable="part-number"/>
+            <number suffix="." variable="number"/>
+          </else-if>
+          <else-if type="software" match="any">
+            <text macro="title"/>
+            <text macro="medium"/>
+          </else-if>
+          <else-if type="song" match="any">
+            <text variable="original-title" font-style="italic"/>
+            <text value="[Podcast]."/>
+            <text macro="last update"/>
+          </else-if>
+          <else-if type="thesis" match="any">
+            <text variable="title-short" font-style="italic" suffix=":"/>
+            <text macro="title"/>
+            <text variable="genre" suffix="."/>
+            <text variable="publisher" suffix="."/>
+          </else-if>
+          <else-if type="webpage" match="any">
+            <text macro="title"/>
           </else-if>
         </choose>
       </group>
