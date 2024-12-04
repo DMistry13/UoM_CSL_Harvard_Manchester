@@ -13,7 +13,13 @@
     <author>
       <name>Dhruv Mistry</name>
     </author>
-    <updated>2024-11-28T14:25:59+00:00</updated>
+    <contributor>
+      <name>David Hirst</name>
+    </contributor>
+    <contributor>
+      <name>Lea Anderson</name>
+    </contributor>
+    <updated>2024-12-04T16:45:24+00:00</updated>
   </info>
   <macro name="author">
     <choose>
@@ -29,7 +35,7 @@
       </else-if>
       <else>
         <names variable="author editor guest">
-          <name and="symbol" delimiter-precedes-last="never" et-al-min="4" initialize-with="." name-as-sort-order="all"/>
+          <name and="symbol" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
         </names>
       </else>
     </choose>
@@ -45,7 +51,7 @@
     </group>
   </macro>
   <macro name="title">
-    <group>
+    <group suffix=",">
       <text variable="container-title" font-style="italic"/>
     </group>
     <choose>
@@ -53,7 +59,7 @@
         <text variable="collection-title" font-style="italic" prefix=": " suffix=". "/>
       </if>
       <else>
-        <text value="." suffix=". "/>
+        <text value="" suffix=". "/>
       </else>
     </choose>
   </macro>
@@ -83,16 +89,15 @@
         </date>
       </if>
     </choose>
-    <date variable="submitted">
+    <date variable="issued">
       <date-part name="day" suffix=" "/>
-      <date-part name="month" form="long" suffix=" "/>
-      <date-part name="year" suffic=". "/>
+      <date-part name="month"/>
     </date>
   </macro>
   <macro name="page number">
     <group>
       <label variable="page" form="short"/>
-      <text variable="page"/>
+      <text variable="page" suffix="."/>
     </group>
   </macro>
   <macro name="access">
@@ -115,6 +120,11 @@
         </date>
       </group>
     </group>
+  </macro>
+  <macro name="title-shortened">
+    <choose>
+      <if match="any" variable="collection-title"/>
+    </choose>
   </macro>
   <citation et-al-min="3" et-al-use-first="1" collapse="year" delimiter="; ">
     <sort>
@@ -147,7 +157,7 @@
               <text macro="title"/>
               <text macro="year"/>
               <names variable="director">
-                <name suffix=" " delimiter-precedes-last="always" et-al-min="4"/>
+                <name suffix=" " delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1"/>
               </names>
               <text macro="medium"/>
               <text macro="publisher"/>
@@ -156,7 +166,7 @@
           <else-if type="collection" match="any">
             <group delimiter=" ">
               <names variable="composer">
-                <name delimiter-precedes-last="always" et-al-min="3" initialize-with="." name-as-sort-order="all"/>
+                <name delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
               </names>
               <text macro="year"/>
               <text macro="specific title"/>
@@ -181,7 +191,7 @@
           <else-if type="speech" match="any">
             <group delimiter=" ">
               <names variable="author" suffix=",">
-                <name name-as-sort-order="all"/>
+                <name et-al-min="4" et-al-use-first="1" name-as-sort-order="all"/>
               </names>
               <text macro="year"/>
               <text macro="title"/>
@@ -227,7 +237,7 @@
                 </choose>
               </group>
               <text macro="page number"/>
-              <text variable="source" suffix=" [Preprint] "/>
+              <text variable="source" suffix=" [Preprint]. "/>
             </group>
           </if>
           <else-if type="article-newspaper" match="any">
@@ -240,7 +250,9 @@
                 <text value=" "/>
               </else>
             </choose>
-            <text macro="last update"/>
+            <group suffix=".">
+              <text macro="last update"/>
+            </group>
           </else-if>
           <else-if type="book" match="any">
             <text variable="title" font-style="italic" suffix="."/>
@@ -253,7 +265,7 @@
             <choose>
               <if match="all" variable="author editor">
                 <names variable="editor" prefix="Edited by " suffix=".">
-                  <name and="symbol" et-al-use-last="true" initialize-with="."/>
+                  <name and="symbol" et-al-min="4" et-al-use-first="1" et-al-use-last="true" initialize-with="." name-as-sort-order="all"/>
                 </names>
               </if>
               <else-if match="any" variable="editor-translator">
@@ -275,7 +287,9 @@
             <text macro="publisher"/>
             <text macro="page number"/>
           </else-if>
-          <else-if type="dataset" match="any"/>
+          <else-if type="dataset" match="any">
+            <text variable="archive"/>
+          </else-if>
           <else-if type="document" match="any"/>
           <else-if type="entry-encyclopedia" match="any">
             <text macro="title"/>
