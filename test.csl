@@ -19,7 +19,7 @@
     <contributor>
       <name>Lea Anderson</name>
     </contributor>
-    <updated>2024-12-04T16:45:24+00:00</updated>
+    <updated>2024-12-06T12:02:56+00:00</updated>
   </info>
   <macro name="author">
     <choose>
@@ -108,7 +108,7 @@
           <text variable="URL" suffix="."/>
         </if>
         <else-if match="any" variable="DOI">
-          <text variable="DOI"/>
+          <text variable="DOI" prefix="doi: "/>
         </else-if>
       </choose>
       <group prefix=" (" suffix=").">
@@ -353,7 +353,7 @@
             <choose>
               <if match="any" variable="URL DOI">
                 <text variable="container-title" font-style="italic" suffix=":"/>
-                <text variable="title"/>
+                <text variable="title" suffix=","/>
                 <text variable="page" suffix="."/>
                 <text variable="scale" suffix="."/>
                 <text variable="source" prefix="Using: "/>
@@ -402,13 +402,13 @@
               <if match="any" variable="URL DOI">
                 <choose>
                   <if match="any" variable="publisher">
-                    <text macro="title"/>
+                    <text variable="title" font-style="italic" suffix="."/>
                     <text macro="publisher"/>
-                    <number prefix="(" suffix=")." variable="supplement-number"/>
+                    <number prefix="(" suffix=")." variable="number"/>
                   </if>
                   <else>
-                    <text macro="title"/>
-                    <names variable="organizer"/>
+                    <text variable="title" font-style="italic" suffix="."/>
+                    <text variable="version" prefix="[" suffix="]"/>
                   </else>
                 </choose>
               </if>
@@ -428,8 +428,8 @@
             <number suffix="." variable="number"/>
           </else-if>
           <else-if type="software" match="any">
-            <text macro="title"/>
-            <text macro="medium"/>
+            <text variable="title" font-style="italic" suffix="."/>
+            <text variable="version" prefix="[" suffix="]."/>
           </else-if>
           <else-if type="song" match="any">
             <text variable="original-title" font-style="italic"/>
@@ -438,12 +438,12 @@
           </else-if>
           <else-if type="thesis" match="any">
             <text variable="title-short" font-style="italic" suffix=":"/>
-            <text macro="title"/>
-            <text variable="genre" suffix="."/>
+            <text variable="title" font-style="italic" suffix="."/>
+            <text variable="genre" suffix=","/>
             <text variable="publisher" suffix="."/>
           </else-if>
           <else-if type="webpage" match="any">
-            <text macro="title"/>
+            <text variable="title" font-style="italic" suffix="."/>
           </else-if>
         </choose>
       </group>
