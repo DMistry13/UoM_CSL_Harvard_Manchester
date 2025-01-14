@@ -19,23 +19,23 @@
     <contributor>
       <name>Lea Anderson</name>
     </contributor>
-    <updated>2024-12-06T12:02:56+00:00</updated>
+    <updated>2025-01-14T14:10:03+00:00</updated>
   </info>
   <macro name="author">
     <choose>
       <if match="all" variable="author editor">
         <names variable="author" suffix=" ">
-          <name delimiter="" suffix=" " delimiter-precedes-last="always" et-al-min="4" initialize-with="." name-as-sort-order="first"/>
+          <name delimiter="," suffix=" " delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="first"/>
         </names>
       </if>
       <else-if match="any" variable="editor">
         <names variable="editor">
-          <name and="symbol" delimiter-precedes-last="always" et-al-min="4" initialize-with="." name-as-sort-order="all"/>
+          <name and="symbol" delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
         </names>
       </else-if>
       <else>
         <names variable="author editor guest">
-          <name and="symbol" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
+          <name delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="first"/>
         </names>
       </else>
     </choose>
@@ -157,7 +157,7 @@
               <text macro="title"/>
               <text macro="year"/>
               <names variable="director">
-                <name suffix=" " delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1"/>
+                <name suffix=" " delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="first"/>
               </names>
               <text macro="medium"/>
               <text macro="publisher"/>
@@ -166,7 +166,7 @@
           <else-if type="collection" match="any">
             <group delimiter=" ">
               <names variable="composer">
-                <name delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
+                <name delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="first"/>
               </names>
               <text macro="year"/>
               <text macro="specific title"/>
@@ -191,7 +191,7 @@
           <else-if type="speech" match="any">
             <group delimiter=" ">
               <names variable="author" suffix=",">
-                <name et-al-min="4" et-al-use-first="1" name-as-sort-order="all"/>
+                <name et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="first"/>
               </names>
               <text macro="year"/>
               <text macro="title"/>
@@ -265,12 +265,12 @@
             <choose>
               <if match="all" variable="author editor">
                 <names variable="editor" prefix="Edited by " suffix=".">
-                  <name and="symbol" et-al-min="4" et-al-use-first="1" et-al-use-last="true" initialize-with="." name-as-sort-order="all"/>
+                  <name and="symbol" et-al-min="4" et-al-use-first="1" et-al-use-last="true" initialize-with="." name-as-sort-order="first"/>
                 </names>
               </if>
               <else-if match="any" variable="editor-translator">
                 <names variable="editor-translator" prefix="Translated by ">
-                  <name delimiter-precedes-last="always" et-al-min="4" initialize-with=". " name-as-sort-order="all"/>
+                  <name delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="first"/>
                 </names>
               </else-if>
             </choose>
@@ -281,7 +281,7 @@
           <else-if type="chapter">
             <text macro="specific title"/>
             <names variable="editor" prefix="in " suffix=".">
-              <name et-al-min="4" initialize-with=". " name-as-sort-order="first"/>
+              <name delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="first"/>
             </names>
             <text macro="title"/>
             <text macro="publisher"/>
@@ -313,10 +313,10 @@
               <if match="all" variable="interviewer page">
                 <text variable="container-title" prefix="'" suffix="'."/>
                 <names variable="guest" prefix="Interview with ">
-                  <name delimiter-precedes-last="always" et-al-min="3" initialize-with="." name-as-sort-order="first"/>
+                  <name delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="first"/>
                 </names>
                 <names variable="interviewer" prefix="Interviewed by ">
-                  <name delimiter-precedes-last="always" et-al-min="3" initialize-with="." name-as-sort-order="first"/>
+                  <name delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="first"/>
                 </names>
                 <text variable="publisher" font-style="italic" prefix="for the "/>
                 <choose>
@@ -348,6 +348,14 @@
             <number/>
             <text variable="call-number" prefix="Case: " suffix="."/>
             <text variable="source" font-style="italic" suffix="."/>
+          </else-if>
+          <else-if type="manuscript" match="any">
+            <text variable="title" font-style="italic" suffix="."/>
+            <text variable="collection-title"/>
+            <text value="[Manuscript]."/>
+            <text macro="publisher" prefix="At: "/>
+            <number suffix="." variable="number-of-volumes"/>
+            <text variable="note" form="short" suffix="."/>
           </else-if>
           <else-if type="map" match="any">
             <choose>
@@ -445,6 +453,9 @@
           <else-if type="webpage" match="any">
             <text variable="title" font-style="italic" suffix="."/>
           </else-if>
+          <else>
+            <text variable="title" prefix="'" suffix="',"/>
+          </else>
         </choose>
       </group>
       <choose>
