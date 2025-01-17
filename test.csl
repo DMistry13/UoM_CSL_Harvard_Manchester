@@ -7,37 +7,35 @@
     <author>
       <name>Adrian Kosikowski</name>
     </author>
-    <author/>
-    <author/>
+    <contributor>
+      <name>Dhruv Mistry</name>
+    </contributor>
+    <contributor>
+      <name>Preenal Asher</name>
+    </contributor>
     <contributor>
       <name>David Hirst</name>
     </contributor>
     <contributor>
       <name>Lea Anderson</name>
     </contributor>
-    <contributor>
-      <name>Preenal Asher</name>
-    </contributor>
-    <contributor>
-      <name>Dhruv Mistry</name>
-    </contributor>
-    <updated>2025-01-17T11:31:40+00:00</updated>
+    <updated>2025-01-17T14:22:23+00:00</updated>
   </info>
   <macro name="author">
     <choose>
       <if match="all" variable="author editor">
         <names variable="author" suffix=" ">
-          <name delimiter="," suffix=" " delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
+          <name delimiter="," suffix=" " and="text" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
         </names>
       </if>
       <else-if match="any" variable="editor">
         <names variable="editor">
-          <name and="symbol" delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
+          <name and="text" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
         </names>
       </else-if>
       <else>
         <names variable="author editor guest">
-          <name delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
+          <name and="text" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
         </names>
       </else>
     </choose>
@@ -98,8 +96,8 @@
   </macro>
   <macro name="page number">
     <group suffix=" ">
-      <label variable="page" form="short"/>
-      <text variable="page" suffix="."/>
+      <label suffix=" " variable="page" form="short"/>
+      <text variable="page"/>
     </group>
   </macro>
   <macro name="access">
@@ -107,10 +105,10 @@
       <choose>
         <if match="any" variable="URL">
           <text value="Available at:"/>
-          <text variable="URL" suffix="."/>
+          <text variable="URL"/>
         </if>
         <else-if match="any" variable="DOI">
-          <text variable="DOI" prefix="doi: "/>
+          <text variable="DOI" prefix="https://doi.org/"/>
         </else-if>
       </choose>
       <group prefix=" (" suffix=").">
@@ -159,7 +157,7 @@
               <text macro="title"/>
               <text macro="year"/>
               <names variable="director">
-                <name suffix=" " delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
+                <name suffix=" " and="text" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
               </names>
               <text macro="medium"/>
               <text macro="publisher"/>
@@ -168,7 +166,7 @@
           <else-if type="collection" match="any">
             <group delimiter=" ">
               <names variable="composer">
-                <name delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
+                <name and="text" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
               </names>
               <text macro="year"/>
               <text macro="specific title"/>
@@ -193,7 +191,7 @@
           <else-if type="speech" match="any">
             <group delimiter=" ">
               <names variable="author" suffix=",">
-                <name et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
+                <name and="text" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
               </names>
               <text macro="year"/>
               <text macro="title"/>
@@ -267,12 +265,12 @@
             <choose>
               <if match="all" variable="author editor">
                 <names variable="editor" prefix="Edited by " suffix=".">
-                  <name and="symbol" et-al-min="4" et-al-use-first="1" et-al-use-last="true" initialize-with="." name-as-sort-order="all"/>
+                  <name and="text" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" et-al-use-last="true" initialize-with=". " name-as-sort-order="all"/>
                 </names>
               </if>
               <else-if match="any" variable="editor-translator">
                 <names variable="editor-translator" prefix="Translated by ">
-                  <name delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
+                  <name and="text" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
                 </names>
               </else-if>
             </choose>
@@ -283,7 +281,7 @@
           <else-if type="chapter">
             <text macro="specific title"/>
             <names variable="editor" prefix="in " suffix=".">
-              <name delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
+              <name and="text" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
             </names>
             <text macro="title"/>
             <text macro="publisher"/>
@@ -315,10 +313,10 @@
               <if match="all" variable="interviewer page">
                 <text variable="container-title" prefix="'" suffix="'."/>
                 <names variable="guest" prefix="Interview with ">
-                  <name delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
+                  <name and="text" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
                 </names>
                 <names variable="interviewer" prefix="Interviewed by ">
-                  <name delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
+                  <name and="text" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
                 </names>
                 <text variable="publisher" font-style="italic" prefix="for the "/>
                 <choose>
