@@ -2,17 +2,17 @@
     <choose>
       <if match="all" variable="author editor">
         <names variable="author" suffix=" ">
-          <name delimiter="" suffix=" " delimiter-precedes-last="always" et-al-min="4" initialize-with="." name-as-sort-order="first"/>
+          <name delimiter="," suffix=" " delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
         </names>
       </if>
       <else-if match="any" variable="editor">
         <names variable="editor">
-          <name suffix=" " delimiter-precedes-last="always" et-al-min="4" name-as-sort-order="first"/>
+          <name and="symbol" delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
         </names>
       </else-if>
       <else>
         <names variable="author editor guest">
-          <name suffix=" " et-al-min="4" initialize-with="." name-as-sort-order="first"/>
+          <name delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
         </names>
       </else>
     </choose>
@@ -24,19 +24,19 @@
   </macro>
   <macro name="specific title">
     <group>
-      <text variable="container-title" prefix=" '" suffix="', "/>
+      <text variable="title" prefix=" '" suffix="', "/>
     </group>
   </macro>
   <macro name="title">
-    <group>
-      <text variable="original-title" font-style="italic"/>
+    <group suffix=",">
+      <text variable="container-title" font-style="italic"/>
     </group>
     <choose>
       <if match="any" variable="collection-title">
         <text variable="collection-title" font-style="italic" prefix=": " suffix=". "/>
       </if>
       <else>
-        <text value="full stop" suffix=". "/>
+        <text value="" suffix=". "/>
       </else>
     </choose>
   </macro>
@@ -66,16 +66,15 @@
         </date>
       </if>
     </choose>
-    <date variable="submitted">
+    <date variable="issued">
       <date-part name="day" suffix=" "/>
-      <date-part name="month" form="long" suffix=" "/>
-      <date-part name="year" suffic=". "/>
+      <date-part name="month"/>
     </date>
   </macro>
   <macro name="page number">
-    <group>
+    <group suffix=" ">
       <label variable="page" form="short"/>
-      <text variable="page"/>
+      <text variable="page" suffix="."/>
     </group>
   </macro>
   <macro name="access">
@@ -86,16 +85,21 @@
           <text variable="URL" suffix="."/>
         </if>
         <else-if match="any" variable="DOI">
-          <text variable="DOI"/>
+          <text variable="DOI" prefix="doi: "/>
         </else-if>
       </choose>
       <group prefix=" (" suffix=").">
         <text value="Accessed: "/>
         <date variable="accessed">
-          <date-part name="day" form="numeric-leading-zeros" suffix="."/>
-          <date-part name="month" form="numeric-leading-zeros" suffix="."/>
+          <date-part name="day" form="numeric-leading-zeros" suffix=" "/>
+          <date-part name="month" suffix=" "/>
           <date-part name="year"/>
         </date>
       </group>
     </group>
+  </macro>
+  <macro name="title-shortened">
+    <choose>
+      <if match="any" variable="collection-title"/>
+    </choose>
   </macro>
