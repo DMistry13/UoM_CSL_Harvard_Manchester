@@ -19,7 +19,7 @@
     <contributor>
       <name>Lea Anderson</name>
     </contributor>
-    <updated>2025-01-23T11:05:35+00:00</updated>
+    <updated>2025-02-11T11:31:40+00:00</updated>
   </info>
   <macro name="author">
     <choose>
@@ -47,7 +47,7 @@
   </macro>
   <macro name="specific title">
     <group>
-      <text variable="title" prefix=" ‘" suffix="’, "/>
+      <text variable="title" prefix=" '" suffix="', "/>
     </group>
   </macro>
   <macro name="title">
@@ -103,12 +103,12 @@
   <macro name="access">
     <group delimiter=" ">
       <choose>
-        <if match="any" variable="URL">
+        <if match="any" variable="DOI">
+          <text variable="DOI" prefix="https://doi.org/" suffix="."/>
+        </if>
+        <else-if match="any" variable="URL">
           <text value="Available at:"/>
           <text variable="URL"/>
-        </if>
-        <else-if match="any" variable="DOI">
-          <text variable="DOI" prefix="https://doi.org/" suffix="."/>
         </else-if>
       </choose>
       <group prefix=" (" suffix=").">
@@ -305,11 +305,11 @@
               <text macro="publisher"/>
             </else-if>
             <else-if type="interview" match="any">
-              <text variable="container-title" prefix=" ‘" suffix="’."/>
+              <text variable="container-title" prefix=" '" suffix="'."/>
               <text term="editortranslator"/>
               <choose>
                 <if match="all" variable="interviewer page">
-                  <text variable="container-title" prefix="‘" suffix="’."/>
+                  <text variable="container-title" prefix="'" suffix="'."/>
                   <names variable="guest" prefix="Interview with ">
                     <name and="text" delimiter-precedes-et-al="always" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
                   </names>
@@ -452,7 +452,7 @@
               <text variable="title" font-style="italic" suffix="."/>
             </else-if>
             <else>
-              <text variable="title" font-style="italic" prefix="‘" suffix="’,"/>
+              <text variable="title" font-style="italic" prefix="'" suffix="',"/>
             </else>
           </choose>
         </group>
