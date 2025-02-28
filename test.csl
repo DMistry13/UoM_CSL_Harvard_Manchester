@@ -19,7 +19,7 @@
     <contributor>
       <name>Lea Anderton</name>
     </contributor>
-    <updated>2025-02-11T11:31:40+00:00</updated>
+    <updated>2025-02-28T10:11:37+00:00</updated>
   </info>
   <macro name="author">
     <choose>
@@ -36,6 +36,25 @@
       <else>
         <names variable="author editor guest">
           <name and="text" delimiter-precedes-et-al="always" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
+        </names>
+      </else>
+    </choose>
+  </macro>
+  <macro name="author-citation">
+    <choose>
+      <if match="all" variable="author editor">
+        <names variable="author" suffix=" ">
+          <name form="short" delimiter="," suffix=" " and="text" delimiter-precedes-et-al="never" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
+        </names>
+      </if>
+      <else-if match="any" variable="editor">
+        <names variable="editor">
+          <name form="short" and="text" delimiter-precedes-et-al="never" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
+        </names>
+      </else-if>
+      <else>
+        <names variable="author editor guest">
+          <name form="short" and="text" delimiter-precedes-et-al="never" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
         </names>
       </else>
     </choose>
@@ -97,7 +116,7 @@
   <macro name="page number">
     <group>
       <label suffix=" " variable="page" form="short"/>
-      <text variable="page" font-variant="normal"/>
+      <text variable="page" font-variant="normal" suffix="."/>
     </group>
   </macro>
   <macro name="access">
@@ -133,14 +152,14 @@
     </sort>
     <layout delimiter=", ">
       <choose>
-        <if match="any" type="article">
-          <text macro="author" suffix=" "/>
-          <date variable="issued" prefix="(" suffix=")">
+        <if match="any" type="legislation entry-encyclopedia post-weblog">
+          <text variable="title" font-style="italic" prefix="(" suffix=", "/>
+          <date variable="issued" suffix=")">
             <date-part name="year"/>
           </date>
         </if>
         <else>
-          <text variable="title" font-style="italic" prefix="(" suffix=", "/>
+          <text macro="author-citation" prefix="(" suffix=", "/>
           <date variable="issued" suffix=")">
             <date-part name="year"/>
           </date>
