@@ -2,17 +2,36 @@
     <choose>
       <if match="all" variable="author editor">
         <names variable="author" suffix=" ">
-          <name delimiter="," suffix=" " delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
+          <name delimiter="," suffix=" " and="text" delimiter-precedes-et-al="always" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
         </names>
       </if>
       <else-if match="any" variable="editor">
         <names variable="editor">
-          <name and="symbol" delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
+          <name and="text" delimiter-precedes-et-al="always" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
         </names>
       </else-if>
       <else>
         <names variable="author editor guest">
-          <name delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" initialize-with="." name-as-sort-order="all"/>
+          <name and="text" delimiter-precedes-et-al="always" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
+        </names>
+      </else>
+    </choose>
+  </macro>
+  <macro name="author-citation">
+    <choose>
+      <if match="all" variable="author editor">
+        <names variable="author" suffix=" ">
+          <name form="short" delimiter="," suffix=" " and="text" delimiter-precedes-et-al="never" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
+        </names>
+      </if>
+      <else-if match="any" variable="editor">
+        <names variable="editor">
+          <name form="short" and="text" delimiter-precedes-et-al="never" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
+        </names>
+      </else-if>
+      <else>
+        <names variable="author editor guest">
+          <name form="short" and="text" delimiter-precedes-et-al="never" delimiter-precedes-last="never" et-al-min="4" et-al-use-first="1" initialize-with=". " name-as-sort-order="all"/>
         </names>
       </else>
     </choose>
@@ -67,25 +86,25 @@
       </if>
     </choose>
     <date variable="issued">
-      <date-part name="day" suffix=" "/>
+      <date-part name="day" form="numeric-leading-zeros" suffix=" "/>
       <date-part name="month"/>
     </date>
   </macro>
   <macro name="page number">
-    <group suffix=" ">
-      <label variable="page" form="short"/>
-      <text variable="page" suffix="."/>
+    <group>
+      <label suffix=" " variable="page" form="short"/>
+      <text variable="page" font-variant="normal" suffix="."/>
     </group>
   </macro>
   <macro name="access">
     <group delimiter=" ">
       <choose>
-        <if match="any" variable="URL">
-          <text value="Available at:"/>
-          <text variable="URL" suffix="."/>
+        <if match="any" variable="DOI">
+          <text variable="DOI" prefix="https://doi.org/" suffix="."/>
         </if>
-        <else-if match="any" variable="DOI">
-          <text variable="DOI" prefix="doi: "/>
+        <else-if match="any" variable="URL">
+          <text value="Available at:"/>
+          <text variable="URL"/>
         </else-if>
       </choose>
       <group prefix=" (" suffix=").">
