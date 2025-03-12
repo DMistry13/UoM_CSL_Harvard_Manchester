@@ -19,7 +19,7 @@
     <contributor>
       <name>Lea Anderton</name>
     </contributor>
-    <updated>2025-03-12T16:25:42+00:00</updated>
+    <updated>2025-03-12T16:50:11+00:00</updated>
   </info>
   <macro name="author">
     <choose>
@@ -147,10 +147,10 @@
       <if match="any" variable="collection-title"/>
     </choose>
   </macro>
-  <citation et-al-min="4" et-al-use-first="1" et-al-subsequent-min="4" et-al-subsequent-use-first="1" disambiguate-add-year-suffix="true" collapse="year">
+  <citation delimiter-precedes-et-al="always" delimiter-precedes-last="always" et-al-min="4" et-al-use-first="1" et-al-subsequent-min="4" et-al-subsequent-use-first="1" disambiguate-add-year-suffix="true" after-collapse-delimiter=", ">
     <sort>
       <key macro="author"/>
-      <key macro="author"/>
+      <key macro="year" sort="descending"/>
     </sort>
     <layout delimiter=", ">
       <group prefix="(" suffix=")">
@@ -179,9 +179,6 @@
           <else>
             <text value="no date"/>
           </else>
-        </choose>
-        <choose>
-          <if match="any" is-numeric="author"/>
         </choose>
       </group>
     </layout>
