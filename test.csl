@@ -19,7 +19,7 @@
     <contributor>
       <name>Lea Anderton</name>
     </contributor>
-    <updated>2025-02-28T10:11:37+00:00</updated>
+    <updated>2025-03-12T16:25:42+00:00</updated>
   </info>
   <macro name="author">
     <choose>
@@ -61,7 +61,9 @@
   </macro>
   <macro name="year">
     <group>
-      <date date-parts="year" form="text" variable="issued" prefix="(" suffix=")."/>
+      <date date-parts="year" form="text" variable="issued" prefix="(" suffix=").">
+        <date-part name="year"/>
+      </date>
     </group>
   </macro>
   <macro name="specific title">
@@ -145,29 +147,47 @@
       <if match="any" variable="collection-title"/>
     </choose>
   </macro>
-  <citation et-al-min="3" et-al-use-first="1" collapse="year" delimiter="; ">
+  <citation et-al-min="4" et-al-use-first="1" et-al-subsequent-min="4" et-al-subsequent-use-first="1" disambiguate-add-year-suffix="true" collapse="year">
     <sort>
       <key macro="author"/>
-      <key macro="issued"/>
+      <key macro="author"/>
     </sort>
     <layout delimiter=", ">
-      <choose>
-        <if match="any" type="legislation entry-encyclopedia post-weblog">
-          <text variable="title" font-style="italic" prefix="(" suffix=", "/>
-          <date variable="issued" suffix=")">
-            <date-part name="year"/>
-          </date>
-        </if>
-        <else>
-          <text macro="author-citation" prefix="(" suffix=", "/>
-          <date variable="issued" suffix=")">
-            <date-part name="year"/>
-          </date>
-        </else>
-      </choose>
+      <group prefix="(" suffix=")">
+        <choose>
+          <if match="any" type="legislation entry-encyclopedia post-weblog">
+            <choose>
+              <if match="any" variable="title">
+                <text variable="title" font-style="italic" suffix=", "/>
+              </if>
+            </choose>
+          </if>
+          <else>
+            <choose>
+              <if match="any" variable="author editor">
+                <text macro="author-citation" suffix=", "/>
+              </if>
+            </choose>
+          </else>
+        </choose>
+        <choose>
+          <if match="any" variable="issued">
+            <date variable="issued">
+              <date-part name="year"/>
+            </date>
+          </if>
+          <else>
+            <text value="no date"/>
+          </else>
+        </choose>
+        <choose>
+          <if match="any" is-numeric="author"/>
+        </choose>
+      </group>
     </layout>
+    <layout/>
   </citation>
-  <bibliography hanging-indent="true" line-spacing="1" entry-spacing="0">
+  <bibliography et-al-min="4" et-al-use-first="1" et-al-subsequent-min="4" et-al-subsequent-use-first="1" entry-spacing="0" hanging-indent="true">
     <layout delimiter=". ">
       <group suffix=".">
         <group delimiter=" ">
